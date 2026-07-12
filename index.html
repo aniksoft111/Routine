@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" id="meta-theme-color" content="#09090b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" id="manifest-link">
+    <title>Zen Routine Studio</title>
+    <style>
+        /* --- ZEN MINIMALIST DESIGN SYSTEM --- */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --bg: #09090b;
+            --surface: #18181b;
+            --surface-hover: #27272a;
+            --border: #27272a;
+            --text-primary: #fafafa;
+            --text-secondary: #a1a1aa;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --glass: rgba(24, 24, 27, 0.6);
+            
+            /* Category Pastels */
+            --cat-routine: #71717a;
+            --cat-ssc: #ec4899;
+            --cat-diploma: #8b5cf6;
+            --cat-coding: #3b82f6;
+            --cat-gaming: #f59e0b;
+        }
+
+        [data-theme="light"] {
+            --bg: #f4f4f5;
+            --surface: #ffffff;
+            --surface-hover: #e4e4e7;
+            --border: #d4d4d8;
+            --text-primary: #09090b;
+            --text-secondary: #71717a;
+            --accent: #2563eb;
+            --glass: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            box-sizing: border-box; margin: 0; padding: 0;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg); color: var(--text-primary);
+            padding: max(4vw, env(safe-area-inset-top)) 6vw 120px 6vw;
+            min-height: 100vh;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* --- HEADER & TOOLBAR --- */
+        header {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: 2rem; max-width: 900px; margin-inline: auto;
+            flex-wrap: wrap; gap: 1.5rem;
+            padding-top: env(safe-area-inset-top);
+        }
+
+        .header-titles h1 { font-size: 2.5rem; font-weight: 700; letter-spacing: -0.05em; }
+        .header-titles p { color: var(--text-secondary); font-size: 1rem; margin-top: 0.25rem; font-weight: 400; }
+
+        .toolbar { display: flex; gap: 0.75rem; align-items: center; }
+
+        button {
+            background: var(--surface); color: var(--text-primary);
+            border: 1px solid var(--border); border-radius: 12px;
+            padding: 0.6rem 1.2rem; font-size: 0.9rem; font-weight: 500;
+            cursor: pointer; transition: all 0.2s ease;
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+
+        button:hover { background: var(--surface-hover); transform: translateY(-2px); }
+        button:active { transform: translateY(0); }
+        .btn-primary { background: var(--text-primary); color: var(--bg); border: none; }
+        .btn-primary:hover { background: var(--text-secondary); }
+
+        /* Dropdown Settings Menu */
+        .settings-wrapper { position: relative; }
+        .settings-menu {
+            position: absolute; top: calc(100% + 0.5rem); right: 0;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 16px; padding: 0.5rem; min-width: 200px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            opacity: 0; visibility: hidden; transform: translateY(-10px);
+            transition: all 0.2s ease; z-index: 100;
+        }
+        .settings-wrapper:hover .settings-menu, .settings-wrapper:focus-within .settings-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .settings-menu button { width: 100%; border: none; background: transparent; justify-content: flex-start; padding: 0.75rem 1rem; }
+        .settings-menu button:hover { background: var(--surface-hover); }
+
+        /* --- DAY NAVIGATION (TAB SYSTEM) --- */
+        .day-nav {
+            display: flex; gap: 0.5rem; overflow-x: auto;
+            max-width: 900px; margin: 0 auto 2rem auto;
+            scrollbar-width: none;
+            padding-bottom: 5px;
+        }
+        .day-nav::-webkit-scrollbar { display: none; }
+        
+        .day-nav button {
+            border-radius: 99px; padding: 0.6rem 1.5rem;
+            background: var(--surface); border: 1px solid var(--border);
+            color: var(--text-secondary); white-space: nowrap;
+        }
+        .day-nav button.active-tab {
+            background: var(--text-primary); color: var(--bg); border-color: var(--text-primary);
+        }
+
+        /* --- FOCUSED DAY VIEW --- */
+        .day-view-container {
+            max-width: 900px; margin: 0 auto;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 24px; padding: 2.5rem;
+            animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .day-title { font-size: 1.75rem; font-weight: 600; letter-spacing: -0.03em; }
+        .today-badge { 
+            background: rgba(16, 185, 129, 0.1); color: var(--success); 
+            padding: 0.25rem 0.75rem; border-radius: 99px; font-size: 0.8rem; font-weight: 600; 
+        }
+
+        /* --- TASK UI --- */
+        .task-list { display: flex; flex-direction: column; gap: 1rem; }
+        
+        .task {
+            background: var(--bg); border: 1px solid var(--border);
+            border-radius: 16px; padding: 1.25rem; position: relative;
+            overflow: hidden; display: flex; align-items: center; gap: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .task::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+            background: var(--cat-color); transition: width 0.3s ease;
+        }
+
+        .task.active-task {
+            background: rgba(16, 185, 129, 0.03); border-color: var(--success);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.05);
+        }
+        .task.active-task::before { background: var(--success); width: 6px; }
+
+        /* Real-time Progress Bar */
+        .task-progress-bar {
+            position: absolute; bottom: 0; left: 0; height: 4px;
+            background: var(--success); width: 0%; 
+            transition: width 1s linear; opacity: 0.8;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .task-time-col { min-width: 120px; border-right: 1px solid var(--border); padding-right: 1rem; z-index: 1; }
+        .task-time { font-size: 1rem; font-weight: 600; color: var(--text-secondary); display: block; transition: color 0.3s; }
+        .task-duration { font-size: 0.8rem; color: var(--text-secondary); opacity: 0.7; margin-top: 0.25rem; }
+        
+        .task.active-task .task-time { color: var(--success); }
+
+        .task-info-col { flex-grow: 1; padding-right: 2rem; z-index: 1; }
+        .task-desc { font-size: 1.1rem; font-weight: 500; line-height: 1.4; color: var(--text-primary); }
+        .task-category { font-size: 0.8rem; color: var(--cat-color); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem; }
+
+        /* Edit Controls */
+        .delete-btn {
+            position: absolute; right: 1rem; top: 50%; transform: translateY(-50%) scale(0.9);
+            background: var(--surface); border: 1px solid var(--border); color: var(--danger); padding: 0.5rem;
+            border-radius: 50%; opacity: 0; pointer-events: none; z-index: 2;
+        }
+        body.edit-mode .delete-btn { opacity: 1; pointer-events: auto; }
+        .delete-btn:hover { background: rgba(239, 68, 68, 0.1); transform: translateY(-50%) scale(1.1); }
+        
+        .add-task-btn {
+            width: 100%; justify-content: center; background: transparent;
+            border: 1px dashed var(--border); color: var(--text-secondary);
+            display: none; margin-top: 1rem; padding: 1rem;
+        }
+        body.edit-mode .add-task-btn { display: flex; }
+        .add-task-btn:hover { border-style: solid; border-color: var(--text-primary); color: var(--text-primary); }
+
+        .empty-msg { color: var(--text-secondary); font-size: 1rem; text-align: center; padding: 3rem 0; }
+
+        /* --- TOAST NOTIFICATIONS --- */
+        .toast-container {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; gap: 10px; z-index: 9999;
+            pointer-events: none;
+        }
+        .toast {
+            background: var(--surface); color: var(--text-primary);
+            padding: 1rem 1.5rem; border-radius: 100px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3); border: 1px solid var(--border);
+            font-weight: 500; font-size: 0.95rem; display: flex; align-items: center; gap: 10px;
+            transform: translateY(-150%) scale(0.9); opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .toast.show { transform: translateY(0) scale(1); opacity: 1; }
+        .toast.error { border-left: 4px solid var(--danger); }
+        .toast.success { border-left: 4px solid var(--success); }
+
+        /* --- DYNAMIC ISLAND (BOTTOM WIDGET) --- */
+        .dynamic-island {
+            position: fixed; bottom: max(30px, env(safe-area-inset-bottom)); 
+            left: 50%; transform: translateX(-50%);
+            background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border); border-radius: 40px;
+            padding: 0.75rem 1.5rem; display: flex; gap: 1.5rem; align-items: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2); z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; overflow: hidden;
+            width: fit-content;
+        }
+
+        .island-clock { font-size: 1.25rem; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; white-space: nowrap; }
+        
+        .island-timer {
+            display: flex; align-items: center; gap: 1rem; width: 0; opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .dynamic-island:hover .island-timer, .dynamic-island.expanded .island-timer { width: 175px; opacity: 1; }
+
+        .timer-nums { font-size: 1rem; font-variant-numeric: tabular-nums; font-weight: 500; color: var(--text-secondary); }
+        .timer-actions { display: flex; gap: 0.25rem; }
+        .timer-actions button { padding: 0.4rem; border-radius: 50%; border: none; background: var(--surface); color: var(--text-primary); }
+        .timer-actions button:hover { background: var(--text-primary); color: var(--bg); }
+
+        /* --- SLEEK MODAL --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 2000;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        
+        .modal {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 24px; padding: 2.5rem; width: 90%; max-width: 420px;
+            transform: translateY(20px); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-overlay.active .modal { transform: translateY(0); }
+        
+        .modal h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; letter-spacing: -0.03em; }
+        .input-group { margin-bottom: 1.25rem; }
+        .input-group label { display: block; font-size: 0.8rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 0.5rem; }
+        .input-group input, .input-group select {
+            width: 100%; padding: 0.8rem 1rem; background: var(--bg); border: 1px solid var(--border);
+            color: var(--text-primary); border-radius: 12px; font-size: 0.95rem; transition: border-color 0.2s;
+        }
+        .input-group input:focus, .input-group select:focus { outline: none; border-color: var(--accent); }
+        .modal-buttons { display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 2rem; }
+
+        @media (max-width: 768px) {
+            body { padding: max(6vw, env(safe-area-inset-top)) 4vw 160px 4vw; }
+            .header-titles h1 { font-size: 2rem; }
+            .day-view-container { padding: 1.5rem; }
+            .task { flex-direction: column; align-items: flex-start; gap: 0.75rem; padding: 1.25rem; }
+            .task-time-col { border-right: none; padding-right: 0; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; width: 100%; display: flex; justify-content: space-between; align-items: center; }
+            .task-duration { margin-top: 0; }
+            
+            .dynamic-island { width: 90%; max-width: 340px; justify-content: center; padding: 1.25rem; flex-direction: column; border-radius: 28px; gap: 0.75rem; }
+            .island-timer { width: 100% !important; opacity: 1 !important; justify-content: space-between; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <header>
+        <div class="header-titles">
+            <h1>Studio</h1>
+            <p>Focused Daily Architecture</p>
+        </div>
+        <div class="toolbar">
+            <button id="btn-edit" class="btn-primary" onclick="toggleEdit()">Edit Schedule</button>
+            
+            <div class="settings-wrapper" tabindex="0">
+                <button>⚙️</button>
+                <div class="settings-menu">
+                    <button onclick="toggleTheme()" id="btn-theme">Light Mode</button>
+                    <button onclick="toggleNotifications()" id="btn-notify">Enable Alerts</button>
+                    <button onclick="exportData()">Export Data</button>
+                    <button onclick="document.getElementById('import-file').click()">Import Data</button>
+                    <button onclick="resetData()" style="color: var(--danger)">Factory Reset</button>
+                </div>
+            </div>
+            <input type="file" id="import-file" style="display: none;" onchange="importData(event)" accept=".json">
+        </div>
+    </header>
+
+    <!-- Tabbed Navigation -->
+    <nav class="day-nav" id="day-nav"></nav>
+
+    <!-- Single Focused Container -->
+    <main class="day-view-container" id="day-view"></main>
+
+    <!-- The Dynamic Island -->
+    <div class="dynamic-island" onclick="this.classList.toggle('expanded')">
+        <div class="island-clock" id="clock">00:00</div>
+        <div class="island-timer" onclick="event.stopPropagation()">
+            <div class="timer-nums" id="stopwatch">00:00:00</div>
+            <div class="timer-actions">
+                <button onclick="startTimer()">▶</button>
+                <button onclick="pauseTimer()">⏸</button>
+                <button onclick="resetTimer()">⟲</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Minimal Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+            <h2>New Block</h2>
+            <div class="input-group">
+                <label>Category Space</label>
+                <select id="modal-cat">
+                    <option value="routine">General Routine</option>
+                    <option value="ssc">SSC Prep (Phy/Chem/Math)</option>
+                    <option value="diploma">Diploma Studies (4th Sem)</option>
+                    <option value="coding">Web Dev & Programming</option>
+                    <option value="gaming">Gaming & Media</option>
+                </select>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <div class="input-group" style="flex: 1;">
+                    <label>Start</label>
+                    <input type="time" id="modal-start" required>
+                </div>
+                <div class="input-group" style="flex: 1;">
+                    <label>End</label>
+                    <input type="time" id="modal-end" required>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Details</label>
+                <input type="text" id="modal-desc" placeholder="What are you focusing on?" required autocomplete="off">
+            </div>
+            <div class="modal-buttons">
+                <button onclick="closeModal()">Cancel</button>
+                <button class="btn-primary" onclick="saveTask()">Save Block</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- TAILORED SEED DATA ---
+        const initialData = [
+            { day: "Saturday", tasks: [{ start: "08:00", end: "11:00", desc: "SSC Prep: Higher Math & Physics", category: "ssc" }, { start: "11:30", end: "13:30", desc: "Web Dev: HTML/CSS/JS Portfolio", category: "coding" }, { start: "16:00", end: "18:00", desc: "Gaming: eFootball (Batistuta/Müller build)", category: "gaming" }, { start: "18:30", end: "21:30", desc: "Diploma: Digital Electronics 2", category: "diploma" }, { start: "22:00", end: "23:30", desc: "Anime: Attack on Titan", category: "gaming" }] },
+            { day: "Sunday", tasks: [{ start: "08:00", end: "14:00", desc: "Diploma 4th Sem Classes", category: "diploma" }, { start: "16:30", end: "19:00", desc: "SSC Prep: Chemistry Focus", category: "ssc" }, { start: "19:30", end: "22:00", desc: "Java / Python Object Practice", category: "coding" }] },
+            { day: "Monday", tasks: [{ start: "08:00", end: "14:00", desc: "Diploma 4th Sem Classes", category: "diploma" }, { start: "16:30", end: "19:00", desc: "SSC Prep: Board Paper Solving", category: "ssc" }, { start: "19:30", end: "21:30", desc: "Business Communication Studies", category: "diploma" }] },
+            { day: "Tuesday", tasks: [{ start: "08:00", end: "14:00", desc: "Diploma 4th Sem Classes", category: "diploma" }, { start: "17:00", end: "19:00", desc: "Web Dev: CSS Layouts & Grid", category: "coding" }, { start: "19:30", end: "22:00", desc: "SSC Prep: General Math", category: "ssc" }] },
+            { day: "Wednesday", tasks: [{ start: "08:00", end: "14:00", desc: "Diploma 4th Sem Classes", category: "diploma" }, { start: "16:30", end: "19:30", desc: "SSC Prep: Physics Theories", category: "ssc" }, { start: "20:00", end: "22:00", desc: "Digital Electronics Revision", category: "diploma" }] },
+            { day: "Thursday", tasks: [{ start: "08:00", end: "14:00", desc: "Diploma 4th Sem Classes", category: "diploma" }, { start: "16:00", end: "18:00", desc: "VFX / Photography Practice", category: "routine" }, { start: "19:00", end: "22:00", desc: "SSC Prep: Mock Exam", category: "ssc" }] },
+            { day: "Friday", tasks: [{ start: "10:00", end: "13:00", desc: "Deep Coding Session (No Distractions)", category: "coding" }, { start: "15:30", end: "18:00", desc: "Gaming & Leisure", category: "gaming" }, { start: "19:00", end: "21:00", desc: "Weekly Review & Routine Planning", category: "routine" }] }
+        ];
+
+        // --- STATE & INIT ---
+        let routine = JSON.parse(localStorage.getItem('zen_data')) || initialData;
+        let theme = localStorage.getItem('zen_theme') || 'dark';
+        let alertsOn = false;
+        
+        const todayRealName = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+        let activeViewDay = todayRealName; 
+
+        function init() {
+            setTheme(theme);
+            renderNav();
+            renderView();
+            startEngines();
+            initPWA();
+        }
+
+        // --- PWA INJECTION (Single-file magic) ---
+        function initPWA() {
+            const manifest = {
+                name: "Zen Routine Studio",
+                short_name: "Zen Studio",
+                start_url: ".",
+                display: "standalone",
+                background_color: theme === 'dark' ? '#09090b' : '#f4f4f5',
+                theme_color: theme === 'dark' ? '#09090b' : '#f4f4f5',
+                icons: [{ 
+                    src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2310b981'/%3E%3Ctext x='50' y='65' font-size='45' font-family='sans-serif' font-weight='bold' text-anchor='middle' fill='white'%3EZS%3C/text%3E%3C/svg%3E", 
+                    sizes: "192x192", type: "image/svg+xml", purpose: "any maskable" 
+                }]
+            };
+            const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+            document.getElementById('manifest-link').href = URL.createObjectURL(manifestBlob);
+
+            const swCode = `
+                self.addEventListener('install', e => self.skipWaiting());
+                self.addEventListener('activate', e => self.clients.claim());
+                self.addEventListener('fetch', e => { 
+                    e.respondWith(fetch(e.request).catch(() => new Response('Offline mode active'))); 
+                });
+            `;
+            const swBlob = new Blob([swCode], {type: 'application/javascript'});
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => console.log("SW Setup Skipped"));
+            }
+        }
+
+        // --- CUSTOM TOAST NOTIFICATIONS ---
+        function showToast(message, type = 'error') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `${type === 'success' ? '✓' : '⚠️'} ${message}`;
+            container.appendChild(toast);
+            
+            // Trigger reflow to start transition
+            void toast.offsetWidth;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
+
+        // --- CORE RENDERING ---
+        function renderNav() {
+            const nav = document.getElementById('day-nav');
+            nav.innerHTML = '';
+            
+            routine.forEach(dayObj => {
+                const btn = document.createElement('button');
+                btn.textContent = dayObj.day;
+                if (dayObj.day === activeViewDay) btn.classList.add('active-tab');
+                btn.onclick = () => {
+                    activeViewDay = dayObj.day;
+                    renderNav();
+                    renderView();
+                };
+                nav.appendChild(btn);
+            });
+        }
+
+        function renderView() {
+            const container = document.getElementById('day-view');
+            
+            container.classList.remove('day-view-container');
+            void container.offsetWidth; 
+            container.classList.add('day-view-container');
+
+            const dayDataIndex = routine.findIndex(d => d.day === activeViewDay);
+            const dayData = routine[dayDataIndex];
+            const isToday = activeViewDay === todayRealName;
+            
+            dayData.tasks.sort((a, b) => a.start.localeCompare(b.start));
+
+            let tasksHTML = dayData.tasks.length === 0 ? '<div class="empty-msg">No blocks scheduled for this day.</div>' : '';
+            
+            dayData.tasks.forEach((t, tIdx) => {
+                tasksHTML += `
+                    <div class="task" data-start="${t.start}" data-end="${t.end}" style="--cat-color: var(--cat-${t.category || 'routine'})">
+                        <div class="task-progress-bar"></div>
+                        <div class="task-time-col">
+                            <span class="task-time">${formatTime(t.start)}</span>
+                            <span class="task-duration">to ${formatTime(t.end)}</span>
+                        </div>
+                        <div class="task-info-col">
+                            <div class="task-category">${getCatName(t.category)}</div>
+                            <div class="task-desc">${t.desc}</div>
+                        </div>
+                        <button class="delete-btn" onclick="deleteTask(${dayDataIndex}, ${tIdx})" title="Delete Block">✕</button>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = `
+                <div class="day-header">
+                    <span class="day-title">${dayData.day}</span>
+                    ${isToday ? '<span class="today-badge">Current Day</span>' : ''}
+                </div>
+                <div class="task-list">${tasksHTML}</div>
+                <button class="add-task-btn" onclick="openModal()">+ Add Block to ${dayData.day}</button>
+            `;
+            
+            checkActiveTask();
+        }
+
+        function getCatName(cat) {
+            const map = { 'ssc': 'SSC Prep', 'diploma': 'Diploma', 'coding': 'Dev', 'gaming': 'Leisure', 'routine': 'Routine' };
+            return map[cat] || 'Routine';
+        }
+
+        // --- TIME INTELLIGENCE & PROGRESS ---
+        let activeTaskSig = null;
+        function checkActiveTask() {
+            if (activeViewDay !== todayRealName) return; 
+
+            const now = new Date();
+            // Calculate time dynamically to the fraction of a minute for smooth progress
+            const currentMins = now.getHours() * 60 + now.getMinutes() + (now.getSeconds() / 60);
+
+            document.querySelectorAll('.task').forEach(task => {
+                const startMins = getMins(task.dataset.start);
+                const endMins = getMins(task.dataset.end);
+                const progressBar = task.querySelector('.task-progress-bar');
+
+                if (currentMins >= startMins && currentMins < endMins) {
+                    task.classList.add('active-task');
+                    
+                    // Update Progress Bar
+                    const totalDuration = endMins - startMins;
+                    const passed = currentMins - startMins;
+                    const percent = Math.max(0, Math.min(100, (passed / totalDuration) * 100));
+                    progressBar.style.width = `${percent}%`;
+                    
+                    const sig = `${todayRealName}-${task.dataset.start}`;
+                    if (activeTaskSig !== sig) {
+                        activeTaskSig = sig;
+                        notify(task.querySelector('.task-desc').textContent);
+                    }
+                } else {
+                    task.classList.remove('active-task');
+                    // Reset progress bar depending on if it's past or future
+                    progressBar.style.width = currentMins >= endMins ? '100%' : '0%';
+                }
+            });
+        }
+
+        // --- LOGIC & GUARDS ---
+        function toggleEdit() {
+            document.body.classList.toggle('edit-mode');
+            const editing = document.body.classList.contains('edit-mode');
+            document.getElementById('btn-edit').textContent = editing ? 'Done Editing' : 'Edit Schedule';
+            document.getElementById('btn-edit').className = editing ? '' : 'btn-primary';
+            
+            if (editing) showToast('Edit mode enabled. You can now delete or add blocks.', 'success');
+        }
+
+        function openModal() { document.getElementById('modal-overlay').classList.add('active'); }
+        function closeModal() {
+            document.getElementById('modal-overlay').classList.remove('active');
+            ['start', 'end', 'desc'].forEach(id => document.getElementById(`modal-${id}`).value = '');
+        }
+
+        function saveTask() {
+            const start = document.getElementById('modal-start').value;
+            const end = document.getElementById('modal-end').value;
+            const desc = document.getElementById('modal-desc').value;
+            const cat = document.getElementById('modal-cat').value;
+
+            if (!start || !end || !desc) return showToast('Please fill out all fields.');
+            if (start >= end) return showToast('End time must be after the start time.');
+
+            const dayObj = routine.find(d => d.day === activeViewDay);
+            
+            if (dayObj.tasks.some(t => start < t.end && end > t.start)) {
+                return showToast('Time conflict! This block overlaps with an existing one.');
+            }
+
+            dayObj.tasks.push({ start, end, desc, category: cat });
+            save(); renderView(); closeModal();
+            showToast('Block successfully added.', 'success');
+        }
+
+        function deleteTask(dIdx, tIdx) { 
+            routine[dIdx].tasks.splice(tIdx, 1); 
+            save(); renderView(); 
+            showToast('Block removed.', 'success');
+        }
+        function save() { localStorage.setItem('zen_data', JSON.stringify(routine)); }
+
+        // --- UTILS & DATA MANAGEMENT ---
+        function getMins(timeStr) { const [h, m] = timeStr.split(':').map(Number); return h * 60 + m; }
+        function formatTime(timeStr) {
+            let [h, m] = timeStr.split(':');
+            const p = h >= 12 ? 'PM' : 'AM';
+            return `${h % 12 || 12}:${m} ${p}`;
+        }
+
+        function setTheme(newTheme) {
+            theme = newTheme;
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('zen_theme', theme);
+            document.getElementById('btn-theme').textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode';
+            
+            // Update device status bar color for mobile devices
+            const metaColor = theme === 'dark' ? '#09090b' : '#f4f4f5';
+            document.getElementById('meta-theme-color').setAttribute('content', metaColor);
+        }
+
+        function toggleTheme() { setTheme(theme === 'dark' ? 'light' : 'dark'); }
+
+        function toggleNotifications() {
+            if (!alertsOn) {
+                Notification.requestPermission().then(res => {
+                    if (res === 'granted') { 
+                        alertsOn = true; 
+                        document.getElementById('btn-notify').textContent = 'Alerts: ON'; 
+                        showToast('System notifications enabled.', 'success');
+                    } else {
+                        showToast('Notification permission denied by browser.');
+                    }
+                });
+            } else { 
+                alertsOn = false; 
+                document.getElementById('btn-notify').textContent = 'Enable Alerts'; 
+                showToast('System notifications disabled.', 'success');
+            }
+        }
+
+        function notify(msg) { if (alertsOn && 'Notification' in window) new Notification('Zen Focus Time', { body: msg }); }
+
+        function exportData() {
+            const a = document.createElement('a');
+            a.href = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(routine));
+            a.download = "zen_routine_backup.json"; a.click();
+            showToast('Schedule exported successfully.', 'success');
+        }
+
+        function importData(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(evt) {
+                try {
+                    const data = JSON.parse(evt.target.result);
+                    if (Array.isArray(data) && data.length === 7) { 
+                        routine = data; save(); renderNav(); renderView(); 
+                        showToast('Schedule imported successfully.', 'success');
+                    } else {
+                        showToast('File format unrecognized.');
+                    }
+                } catch (err) { showToast('Invalid JSON file.'); }
+            };
+            reader.readAsText(file);
+            e.target.value = ''; // Reset input
+        }
+
+        function resetData() {
+            if (confirm('Are you sure you want to erase all modifications and reset to default?')) {
+                localStorage.removeItem('zen_data');
+                routine = JSON.parse(JSON.stringify(initialData));
+                save(); renderNav(); renderView();
+                showToast('Schedule factory reset complete.', 'success');
+            }
+        }
+
+        // --- CLOCK & STOPWATCH ENGINES ---
+        let swTime = 0, swDelta = 0, swInterval, swRunning = false;
+
+        function startEngines() {
+            setInterval(() => {
+                document.getElementById('clock').textContent = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+            }, 1000);
+            
+            // Run checkActiveTask frequently for smooth progress bar updates (every 1 second)
+            setInterval(checkActiveTask, 1000);
+        }
+
+        function startTimer() {
+            if (!swRunning) {
+                swRunning = true; swTime = Date.now() - swDelta;
+                swInterval = setInterval(() => {
+                    swDelta = Date.now() - swTime;
+                    const s = Math.floor(swDelta / 1000);
+                    document.getElementById('stopwatch').textContent = `${String(Math.floor(s / 3600)).padStart(2, '0')}:${String(Math.floor((s % 3600) / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
+                }, 250);
+            }
+        }
+
+        function pauseTimer() { swRunning = false; clearInterval(swInterval); }
+        function resetTimer() { pauseTimer(); swDelta = 0; document.getElementById('stopwatch').textContent = "00:00:00"; }
+
+        // Close modal on outside click
+        document.getElementById('modal-overlay').addEventListener('click', function(e) {
+            if(e.target === this) closeModal();
+        });
+
+        window.onload = init;
+    </script>
+</body>
+</html>
