@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" id="meta-theme-color" content="#0b0914">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" id="manifest-link">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%2300f3ff'/%3E%3Cstop offset='50%25' stop-color='%23b026ff'/%3E%3Cstop offset='100%25' stop-color='%23ff00ff'/%3E%3C/linearGradient%3E%3Cfilter id='glow' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeGaussianBlur stdDeviation='15' result='blur'/%3E%3CfeComposite in='SourceGraphic' in2='blur' operator='over'/%3E%3C/filter%3E%3C/defs%3E%3Crect width='512' height='512' rx='110' fill='%230b0914'/%3E%3Ccircle cx='256' cy='256' r='180' fill='none' stroke='url(%23grad)' stroke-width='16' stroke-dasharray='40 20' filter='url(%23glow)'/%3E%3Ccircle cx='256' cy='256' r='130' fill='none' stroke='%23ffffff' stroke-opacity='0.1' stroke-width='8'/%3E%3Cpath d='M256 140v120l90 50' fill='none' stroke='url(%23grad)' stroke-width='20' stroke-linecap='round' stroke-linejoin='round' filter='url(%23glow)'/%3E%3Ccircle cx='256' cy='256' r='16' fill='%2300f3ff' filter='url(%23glow)'/%3E%3C/svg%3E">
+    <title>Anik Routine Studio - Gaming Edition</title>
+    <!-- Chart.js for the Dashboard Graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* --- GAMING / NEON DESIGN SYSTEM --- */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            /* Deep, dark glassy surfaces for the gaming vibe */
+            --surface: rgba(20, 20, 30, 0.6);
+            --surface-hover: rgba(30, 30, 45, 0.8);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            
+            /* Electric Neon Accents */
+            --accent: #00f3ff;
+            --success: #39ff14;
+            --danger: #ff003c;
+            --glass: rgba(15, 15, 25, 0.7);
+            
+            /* Category Neon Colors */
+            --cat-routine: #a1a1aa;
+            --cat-ssc: #ff00ff;       /* Magenta */
+            --cat-diploma: #b026ff;   /* Electric Purple */
+            --cat-coding: #00f3ff;    /* Cyan */
+            --cat-gaming: #ffae00;    /* Amber/Gold */
+        }
+
+        /* ========================================================= */
+        /* --- PRO GAMING LIGHT MODE OVERRIDES (HOLOGRAPHIC) ---     */
+        /* ========================================================= */
+        [data-theme="light"] {
+            /* Sleek, frosted white glass */
+            --surface: rgba(255, 255, 255, 0.65);
+            --surface-hover: rgba(255, 255, 255, 0.95);
+            --border: rgba(0, 0, 0, 0.08);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --glass: rgba(255, 255, 255, 0.7);
+            
+            /* Deep neon accents tailored for Light Mode readability */
+            --accent: #0ea5e9; 
+            --success: #059669;
+            --danger: #e11d48;
+            
+            /* Punchy Category Colors for Light Backgrounds */
+            --cat-routine: #64748b;
+            --cat-ssc: #c026d3;       
+            --cat-diploma: #7e22ce;   
+            --cat-coding: #0284c7;    
+            --cat-gaming: #ea580c;    
+        }
+
+        * {
+            box-sizing: border-box; margin: 0; padding: 0;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -webkit-tap-highlight-color: transparent;
+            scroll-behavior: smooth;
+        }
+
+        /* --- ANIMATED GRADIENT BACKGROUND --- */
+        body {
+            color: var(--text-primary);
+            padding: max(4vw, env(safe-area-inset-top)) 6vw 140px 6vw; 
+            min-height: 100vh;
+            /* The Dark Gaming Gradient */
+            background: linear-gradient(-45deg, #0f0c29, #302b63, #050b14, #1a0b2e);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            transition: color 0.4s ease;
+        }
+
+        /* Vibrant Holographic Gaming Gradient for Light Mode */
+        [data-theme="light"] body {
+            background: linear-gradient(-45deg, #a8edea, #fed6e3, #e0c3fc, #8ec5fc);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- HEADER & TOOLBAR --- */
+        header {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: 2rem; max-width: 900px; margin-inline: auto;
+            flex-wrap: wrap; gap: 1.5rem;
+            padding-top: env(safe-area-inset-top);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* --- EXTRAORDINARY TIME MANAGEMENT LOGO --- */
+        .app-logo {
+            width: 52px;
+            height: 52px;
+            flex-shrink: 0;
+            filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.4));
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .app-logo:hover {
+            transform: rotate(15deg) scale(1.1);
+            filter: drop-shadow(0 0 18px rgba(176, 38, 255, 0.7));
+        }
+
+        .header-titles h1 { 
+            font-size: clamp(1.8rem, 5vw, 2.5rem); 
+            font-weight: 800; 
+            letter-spacing: -0.05em;
+            background: linear-gradient(90deg, #fff, #a1a1aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255,255,255,0.1);
+        }
+        .header-titles p { color: var(--text-secondary); font-size: clamp(0.85rem, 3vw, 1rem); margin-top: 0.25rem; font-weight: 500; }
+
+        /* Header Text Fix for Light Mode */
+        [data-theme="light"] .header-titles h1 {
+            background: linear-gradient(90deg, #0f172a, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+        }
+        [data-theme="light"] .app-logo {
+            filter: drop-shadow(0 4px 12px rgba(14, 165, 233, 0.3));
+        }
+
+        .toolbar { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+
+        button {
+            background: var(--surface); color: var(--text-primary);
+            border: 1px solid var(--border); border-radius: 12px;
+            padding: 0.7rem 1.2rem; font-size: 0.9rem; font-weight: 600;
+            cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+            min-height: 44px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        }
+
+        button:hover { 
+            background: var(--surface-hover); 
+            transform: translateY(-3px) scale(1.02); 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        button:active { transform: translateY(0) scale(0.95); }
+        
+        .btn-primary { 
+            background: linear-gradient(135deg, #d946ef, #3b82f6); 
+            color: #fff; border: none; 
+            box-shadow: 0 4px 15px rgba(217, 70, 239, 0.4);
+        }
+        .btn-primary:hover { 
+            box-shadow: 0 8px 25px rgba(217, 70, 239, 0.6); 
+            background: linear-gradient(135deg, #e879f9, #60a5fa);
+        }
+
+        /* Light Mode Primary Button */
+        [data-theme="light"] .btn-primary {
+            background: linear-gradient(135deg, #c026d3, #3b82f6);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(192, 38, 211, 0.3);
+        }
+        [data-theme="light"] .btn-primary:hover {
+            box-shadow: 0 8px 25px rgba(192, 38, 211, 0.5); 
+        }
+        
+        .btn-dashboard { border-color: var(--accent); color: var(--accent); background: rgba(0, 243, 255, 0.05); }
+        .btn-dashboard:hover { background: var(--accent); color: #000; box-shadow: 0 0 20px rgba(0, 243, 255, 0.4); }
+        
+        [data-theme="light"] .btn-dashboard { background: rgba(14, 165, 233, 0.05); }
+        [data-theme="light"] .btn-dashboard:hover { color: #fff; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3); }
+
+        /* Dropdown Settings Menu */
+        .settings-wrapper { position: relative; }
+        .settings-menu {
+            position: absolute; top: calc(100% + 0.5rem); right: 0;
+            background: var(--surface); border: 1px solid var(--border);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px; padding: 0.5rem; min-width: 210px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            opacity: 0; visibility: hidden; transform: translateY(-10px) scale(0.95);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 100;
+        }
+        .settings-wrapper:hover .settings-menu, .settings-wrapper:focus-within .settings-menu { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+        .settings-menu button { width: 100%; border: none; background: transparent; justify-content: flex-start; padding: 0.75rem 1rem; box-shadow: none; border-radius: 8px;}
+        .settings-menu button:hover { background: rgba(255,255,255,0.1); transform: translateX(5px); }
+        
+        [data-theme="light"] .settings-menu { box-shadow: 0 20px 50px rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.8); background: rgba(255, 255, 255, 0.85); }
+        [data-theme="light"] .settings-menu button:hover { background: rgba(0,0,0,0.05); }
+
+        /* --- DAY NAVIGATION (TAB SYSTEM) --- */
+        .day-nav {
+            display: flex; gap: 0.75rem; overflow-x: auto;
+            max-width: 900px; margin: 0 auto 2rem auto;
+            scrollbar-width: none; padding-bottom: 10px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .day-nav::-webkit-scrollbar { display: none; }
+        
+        .day-nav button {
+            border-radius: 99px; padding: 0.6rem 1.5rem;
+            background: var(--surface); border: 1px solid var(--border);
+            color: var(--text-secondary); white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .day-nav button.active-tab {
+            background: var(--text-primary); color: #000; border-color: var(--text-primary);
+            box-shadow: 0 0 15px rgba(255,255,255,0.3);
+        }
+        
+        [data-theme="light"] .day-nav button.active-tab { color: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
+
+        /* --- FOCUSED DAY VIEW --- */
+        .day-view-container {
+            max-width: 900px; margin: 0 auto;
+            background: var(--surface); border: 1px solid var(--border);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px; padding: clamp(1.5rem, 4vw, 2.5rem);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+        
+        [data-theme="light"] .day-view-container { box-shadow: 0 20px 50px rgba(0,0,0,0.05), inset 0 0 0 1px rgba(255,255,255,0.8); }
+
+        .day-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;}
+        .day-title { font-size: clamp(1.4rem, 4vw, 1.75rem); font-weight: 700; letter-spacing: -0.03em; }
+        
+        /* Pulsing Today Badge */
+        .today-badge { 
+            background: rgba(57, 255, 20, 0.15); color: var(--success); 
+            padding: 0.4rem 1rem; border-radius: 99px; font-size: 0.85rem; font-weight: 700; 
+            border: 1px solid rgba(57, 255, 20, 0.3);
+            animation: pulseGlow 2s infinite;
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+        }
+
+        /* --- TASK UI WITH COOL ANIMATIONS --- */
+        .task-list { display: flex; flex-direction: column; gap: 1.25rem; }
+        
+        .task {
+            background: rgba(10, 10, 15, 0.5); border: 1px solid var(--border);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px; padding: 1.25rem; position: relative;
+            overflow: hidden; display: flex; align-items: center; gap: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: slideInTask 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+        }
+        
+        @keyframes slideInTask {
+            from { opacity: 0; transform: translateX(-30px) scale(0.98); }
+            to { opacity: 1; transform: translateX(0) scale(1); }
+        }
+
+        .task:hover {
+            transform: translateY(-5px) scale(1.01);
+            border-color: var(--cat-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255,255,255,0.02);
+            background: rgba(20, 20, 30, 0.8);
+        }
+
+        .task::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+            background: var(--cat-color); transition: width 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 10px var(--cat-color);
+        }
+        
+        .task.active-task {
+            background: rgba(57, 255, 20, 0.05); border-color: var(--success);
+            box-shadow: 0 10px 30px rgba(57, 255, 20, 0.1), inset 0 0 15px rgba(57, 255, 20, 0.05);
+        }
+        .task.active-task::before { background: var(--success); width: 6px; box-shadow: 0 0 15px var(--success); }
+
+        .task-progress-bar {
+            position: absolute; bottom: 0; left: 0; height: 4px;
+            background: var(--success); width: 0%; 
+            transition: width 1s linear; opacity: 0.9;
+            border-radius: 0 4px 4px 0;
+            box-shadow: 0 0 10px var(--success);
+        }
+
+        .task-time-col { min-width: 120px; border-right: 1px solid var(--border); padding-right: 1rem; z-index: 1; }
+        .task-time { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); display: block; transition: color 0.3s; }
+        .task-duration { font-size: 0.8rem; color: var(--text-secondary); opacity: 0.8; margin-top: 0.25rem; display: block; font-weight: 500;}
+        .task.active-task .task-time { color: var(--success); text-shadow: 0 0 10px rgba(57, 255, 20, 0.4);}
+        
+        .task-info-col { flex-grow: 1; z-index: 1; }
+        .task-desc { font-size: clamp(1rem, 3vw, 1.15rem); font-weight: 600; line-height: 1.4; color: var(--text-primary); }
+        .task-category { 
+            font-size: 0.75rem; color: var(--cat-color); font-weight: 800; 
+            text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; 
+            display: inline-block; padding: 0.2rem 0.6rem; 
+            background: rgba(255,255,255,0.05); border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* Task Actions */
+        .task-actions { display: flex; align-items: center; gap: 0.5rem; z-index: 2; position: relative; }
+        .btn-complete { 
+            background: rgba(57, 255, 20, 0.05); border: 1px solid var(--success); 
+            color: var(--success); border-radius: 99px; padding: 0.5rem 1.2rem; 
+            font-size: 0.8rem; font-weight: 700; box-shadow: none;
+        }
+        .btn-complete:hover { background: var(--success); color: #000; box-shadow: 0 0 15px rgba(57, 255, 20, 0.4); transform: scale(1.05);}
+        .btn-complete.done { background: var(--success); color: #000; opacity: 0.5; pointer-events: none; }
+        
+        .delete-btn { background: rgba(255, 0, 60, 0.1); border: 1px solid var(--danger); color: var(--danger); padding: 0.6rem; border-radius: 50%; opacity: 0; pointer-events: none; display: none; }
+        body.edit-mode .delete-btn { display: flex; opacity: 1; pointer-events: auto; }
+        body.edit-mode .btn-complete { display: none; }
+        .delete-btn:hover { background: var(--danger); color: #fff; box-shadow: 0 0 15px rgba(255, 0, 60, 0.5); transform: scale(1.1); }
+        
+        .add-task-btn { width: 100%; justify-content: center; background: rgba(255,255,255,0.02); border: 2px dashed var(--border); color: var(--text-secondary); display: none; margin-top: 1rem; padding: 1.2rem; border-radius: 16px;}
+        body.edit-mode .add-task-btn { display: flex; }
+        .add-task-btn:hover { border-style: solid; border-color: var(--accent); color: var(--accent); background: rgba(0, 243, 255, 0.05); box-shadow: inset 0 0 20px rgba(0, 243, 255, 0.1);}
+        .empty-msg { color: var(--text-secondary); font-size: 1.1rem; text-align: center; padding: 3rem 0; font-weight: 500;}
+
+        /* Task Cards - Glowing Glass Look for Light Mode */
+        [data-theme="light"] .task {
+            background: rgba(255, 255, 255, 0.65);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        [data-theme="light"] .task:hover {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: var(--cat-color);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08), 0 0 15px var(--cat-color);
+        }
+        [data-theme="light"] .task.active-task {
+            background: rgba(5, 150, 105, 0.05);
+            border-color: var(--success);
+            box-shadow: 0 10px 30px rgba(5, 150, 105, 0.1), inset 0 0 15px rgba(5, 150, 105, 0.05);
+        }
+        [data-theme="light"] .task-category {
+            background: rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        /* --- TOAST NOTIFICATIONS (GAMING STYLE) --- */
+        .toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 9999; pointer-events: none; width: 90%; max-width: 400px; align-items: center;}
+        .toast { 
+            background: rgba(15, 15, 25, 0.9); backdrop-filter: blur(10px);
+            color: #fff; padding: 1rem 1.5rem; border-radius: 12px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5), 0 0 20px rgba(255,255,255,0.05); 
+            border: 1px solid var(--border); font-weight: 600; font-size: 0.95rem; 
+            display: flex; align-items: center; gap: 12px; 
+            transform: translateY(-150%) scale(0.9) skewX(-5deg); opacity: 0; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: fit-content;
+        }
+        .toast.show { transform: translateY(0) scale(1) skewX(0); opacity: 1; }
+        .toast.error { border-left: 4px solid var(--danger); box-shadow: -5px 0 20px rgba(255, 0, 60, 0.2); }
+        .toast.success { border-left: 4px solid var(--success); box-shadow: -5px 0 20px rgba(57, 255, 20, 0.2); }
+
+        [data-theme="light"] .toast {
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--text-primary);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1), 0 0 20px rgba(255,255,255,0.8);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        /* --- DYNAMIC ISLAND (NEON GLOW) --- */
+        .dynamic-island { 
+            position: fixed; bottom: max(20px, env(safe-area-inset-bottom)); left: 50%; 
+            transform: translateX(-50%); background: var(--glass); 
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); 
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 40px; 
+            padding: 0.75rem 1.5rem; display: flex; gap: 1.5rem; align-items: center; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 1px 1px rgba(255,255,255,0.2); 
+            z-index: 1000; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            cursor: pointer; overflow: hidden; width: fit-content; max-width: 90vw;
+        }
+        .dynamic-island:hover { border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(0, 243, 255, 0.2); transform: translateX(-50%) translateY(-2px);}
+        .island-clock { font-size: clamp(1rem, 4vw, 1.25rem); font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: 0.05em; white-space: nowrap; text-shadow: 0 0 10px rgba(255,255,255,0.3);}
+        .island-timer { display: flex; align-items: center; gap: 1rem; width: 0; opacity: 0; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none;}
+        .dynamic-island:hover .island-timer, .dynamic-island.expanded .island-timer { width: auto; min-width: 175px; opacity: 1; pointer-events: auto;}
+        .timer-nums { font-size: 1rem; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--accent); text-shadow: 0 0 8px rgba(0, 243, 255, 0.4);}
+        .timer-actions { display: flex; gap: 0.4rem; }
+        .timer-actions button { padding: 0.4rem; min-height: unset; border-radius: 50%; border: none; background: rgba(255,255,255,0.1); color: #fff; box-shadow: none;}
+        .timer-actions button:hover { background: var(--text-primary); color: #000; transform: scale(1.1);}
+
+        [data-theme="light"] .dynamic-island {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08), inset 0 1px 1px rgba(255,255,255,0.8);
+        }
+        [data-theme="light"] .dynamic-island:hover { border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.08), 0 0 15px rgba(14, 165, 233, 0.3); }
+        [data-theme="light"] .island-clock { text-shadow: none; color: var(--text-primary); }
+        [data-theme="light"] .timer-actions button { background: rgba(0,0,0,0.05); color: var(--text-primary); }
+        [data-theme="light"] .timer-actions button:hover { background: var(--text-primary); color: #fff; }
+
+        /* --- SLEEK MODAL --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 2000; padding: 1rem;}
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal { background: var(--surface); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: clamp(1.5rem, 5vw, 2.5rem); width: 100%; max-width: 420px; transform: scale(0.95) translateY(20px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); max-height: 85vh; overflow-y: auto; scrollbar-width: none; box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 40px rgba(139, 92, 246, 0.1);}
+        .modal-overlay.active .modal { transform: scale(1) translateY(0); }
+        .modal h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; letter-spacing: -0.03em; color: #fff;}
+        .input-group { margin-bottom: 1.25rem; }
+        .input-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;}
+        .input-group input, .input-group select { width: 100%; padding: 1rem; background: rgba(0,0,0,0.3); border: 1px solid var(--border); color: #fff; border-radius: 12px; font-size: 1rem; transition: all 0.3s ease; -webkit-appearance: none;}
+        .input-group input:focus, .input-group select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 15px rgba(0, 243, 255, 0.2); background: rgba(0,0,0,0.5);}
+        .modal-buttons { display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 2rem; flex-wrap: wrap;}
+        .modal-buttons button { flex: 1; }
+
+        [data-theme="light"] .modal-overlay { background: rgba(226, 232, 240, 0.7); }
+        [data-theme="light"] .modal { 
+            background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(255,255,255,0.8);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1), 0 0 40px rgba(255,255,255,0.5);
+        }
+        [data-theme="light"] .modal h2 { color: var(--text-primary); text-shadow: none; }
+        [data-theme="light"] .input-group input, 
+        [data-theme="light"] .input-group select {
+            background: rgba(255,255,255,0.95);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+        [data-theme="light"] .input-group input:focus, 
+        [data-theme="light"] .input-group select:focus {
+            background: #fff;
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.2);
+        }
+
+        /* ========================================================= */
+        /* STUDY ANALYTICS DASHBOARD OVERLAY (CYBERPUNK)             */
+        /* ========================================================= */
+        .crm-dashboard {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 5, 10, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            z-index: 3000; display: flex; justify-content: center; align-items: center;
+            opacity: 0; visibility: hidden; transition: all 0.4s ease; padding: 2rem;
+        }
+        .crm-dashboard.active { opacity: 1; visibility: visible; }
+        
+        .crm-container {
+            width: 100%; max-width: 1200px; height: 90vh;
+            background: rgba(20, 20, 30, 0.7); border-radius: 24px; overflow: hidden;
+            display: flex; box-shadow: 0 30px 80px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.05);
+            font-family: 'Inter', sans-serif; 
+            transform: scale(0.95) rotateX(5deg); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            perspective: 1000px;
+        }
+        .crm-dashboard.active .crm-container { transform: scale(1) rotateX(0deg); }
+
+        /* Sidebar */
+        .crm-sidebar {
+            width: 240px; background: rgba(10, 10, 15, 0.8); padding: 2rem 0;
+            display: flex; flex-direction: column; border-right: 1px solid rgba(255,255,255,0.05);
+            flex-shrink: 0; overflow-y: auto;
+        }
+        .crm-brand { padding: 0 1.5rem 2rem 1.5rem; font-size: 1.1rem; font-weight: 800; color: #fff; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center;}
+        .crm-brand button { background: rgba(255,255,255,0.05); border: none; color: #fff; padding: 0.5rem; border-radius: 50%; box-shadow: none;}
+        .crm-brand button:hover { background: var(--danger); color: #fff; transform: rotate(90deg);}
+        .crm-nav-section { margin-bottom: 2rem; }
+        .crm-nav-title { font-size: 0.75rem; text-transform: uppercase; color: var(--accent); letter-spacing: 1.5px; padding: 0 1.5rem; margin-bottom: 0.8rem; font-weight: 700; display: flex; align-items: center; gap: 8px;}
+        .crm-nav-item {
+            padding: 0.8rem 1.5rem; color: #94a3b8; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; border-left: 3px solid transparent;
+        }
+        .crm-nav-item:hover { color: #fff; background: rgba(255,255,255,0.03); padding-left: 2rem;}
+        .crm-nav-item.active {
+            color: #fff; background: linear-gradient(90deg, rgba(0, 243, 255, 0.15) 0%, transparent 100%);
+            border-left: 3px solid var(--accent); text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+
+        /* Main Area */
+        .crm-main { flex: 1; padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; gap: 1.5rem; background: transparent; }
+        
+        .crm-top-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;}
+        .crm-card { background: rgba(30, 30, 45, 0.5); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; backdrop-filter: blur(10px);}
+        .crm-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); border-color: rgba(255,255,255,0.1); transition: all 0.3s ease;}
+        
+        .crm-card.grad-pink { background: linear-gradient(135deg, rgba(217, 70, 239, 0.2), rgba(168, 85, 247, 0.1)); border-color: rgba(217, 70, 239, 0.3); }
+        .crm-card.grad-cyan { background: linear-gradient(135deg, rgba(0, 243, 255, 0.2), rgba(59, 130, 246, 0.1)); border-color: rgba(0, 243, 255, 0.3); }
+        .crm-card-title { font-size: 0.85rem; opacity: 0.9; margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #fff;}
+        .crm-card-value { font-size: 2.2rem; font-weight: 800; font-variant-numeric: tabular-nums; color: #fff; text-shadow: 0 0 15px rgba(255,255,255,0.2);}
+        .crm-card-value span { font-size: 1.1rem; font-weight: 600; opacity: 0.7; }
+        
+        .crm-stats-col { display: flex; flex-direction: column; gap: 0.75rem; justify-content: center; }
+        .crm-mini-stat { background: rgba(30, 30, 45, 0.5); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 1rem; display: flex; align-items: center; justify-content: space-between; flex: 1; transition: all 0.3s ease;}
+        .crm-mini-stat:hover { background: rgba(40, 40, 60, 0.6); transform: scale(1.02);}
+        .crm-mini-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 800;}
+        .crm-mini-stat .label { font-size: 0.85rem; color: #cbd5e1; flex: 1; margin-left: 12px; font-weight: 600;}
+        .crm-mini-stat .badge { background: rgba(255,255,255,0.1); padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.8rem; color: #fff; font-weight: 700; border: 1px solid rgba(255,255,255,0.1);}
+        
+        .crm-mid-row { flex: 1; display: flex; gap: 1.5rem; min-height: 300px; }
+        .crm-chart-panel { background: rgba(30, 30, 45, 0.5); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 1.5rem; flex: 1; display: flex; flex-direction: column; position: relative;}
+        .crm-panel-header { display: flex; justify-content: space-between; margin-bottom: 1rem; align-items: center; }
+        .crm-panel-title { color: #fff; font-size: 0.95rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;}
+        
+        .crm-bot-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; min-height: 280px; }
+        .chart-container { position: relative; flex: 1; width: 100%; height: 100%; min-height: 200px;}
+
+        /* --- DASHBOARD LIGHT MODE OVERRIDES --- */
+        [data-theme="light"] .crm-dashboard { background: rgba(226, 232, 240, 0.85); }
+        [data-theme="light"] .crm-container {
+            background: rgba(255, 255, 255, 0.75);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.1), inset 0 0 0 1px rgba(255,255,255,0.8);
+        }
+        [data-theme="light"] .crm-sidebar { background: rgba(248, 250, 252, 0.6); border-right: 1px solid rgba(0,0,0,0.05); }
+        [data-theme="light"] .crm-brand,
+        [data-theme="light"] .crm-card-value,
+        [data-theme="light"] .crm-card-title,
+        [data-theme="light"] .crm-panel-title { color: var(--text-primary); text-shadow: none; }
+        [data-theme="light"] .crm-brand button { color: var(--text-primary); background: rgba(0,0,0,0.05); }
+        [data-theme="light"] .crm-nav-item { color: var(--text-secondary); }
+        [data-theme="light"] .crm-nav-item:hover { background: rgba(0,0,0,0.03); color: var(--text-primary); }
+        [data-theme="light"] .crm-nav-item.active {
+            color: var(--accent); text-shadow: 0 0 10px rgba(14, 165, 233, 0.2);
+            background: linear-gradient(90deg, rgba(14, 165, 233, 0.1) 0%, transparent 100%);
+            border-left-color: var(--accent);
+        }
+        [data-theme="light"] .crm-card, 
+        [data-theme="light"] .crm-mini-stat, 
+        [data-theme="light"] .crm-chart-panel {
+            background: rgba(255, 255, 255, 0.6); border: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        [data-theme="light"] .crm-card:hover,
+        [data-theme="light"] .crm-mini-stat:hover { 
+            background: rgba(255,255,255,0.9);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+        }
+        [data-theme="light"] .crm-card.grad-pink { background: linear-gradient(135deg, rgba(192, 38, 211, 0.15), rgba(59, 130, 246, 0.05)); border-color: rgba(192, 38, 211, 0.2); }
+        [data-theme="light"] .crm-card.grad-cyan { background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(59, 130, 246, 0.05)); border-color: rgba(14, 165, 233, 0.2); }
+        [data-theme="light"] .crm-mini-stat .label { color: var(--text-secondary); }
+        [data-theme="light"] .crm-mini-stat .badge { color: var(--text-primary); border-color: rgba(0,0,0,0.1); background: rgba(0,0,0,0.03); }
+
+        /* --- MOBILE RESPONSIVENESS --- */
+        @media (max-width: 768px) {
+            header { flex-direction: column; align-items: stretch; gap: 1rem; margin-bottom: 1.5rem;}
+            .toolbar { justify-content: stretch; width: 100%; }
+            .toolbar > button, .settings-wrapper { flex: 1; }
+            .toolbar button { width: 100%; font-size: 0.85rem;}
+            .settings-menu { right: 0; left: 0; min-width: unset; width: 100%; }
+
+            .task { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.25rem 1rem;}
+            .task-time-col { border-right: none; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-right: 0; padding-bottom: 0.8rem; width: 100%; display: flex; justify-content: space-between; align-items: center;}
+            .task-duration { margin-top: 0; }
+            .task-actions { width: 100%; justify-content: flex-end; margin-top: 0.5rem;}
+            .task-actions .btn-complete { width: 100%; justify-content: center;}
+            
+            .crm-dashboard { padding: 0; }
+            .crm-container { height: 100vh; width: 100vw; max-width: none; border-radius: 0; flex-direction: column; transform: translateY(20px); border: none;}
+            .crm-dashboard.active .crm-container { transform: translateY(0); }
+            
+            .crm-sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 1.5rem 1rem; flex-direction: row; align-items: center; justify-content: space-between;}
+            .crm-nav-section { display: none; } 
+            .crm-brand { padding: 0; margin-bottom: 0; width: 100%;}
+            .crm-main { padding: 1rem; gap: 1rem;}
+            .crm-top-row, .crm-bot-row { grid-template-columns: 1fr; }
+            .crm-mid-row { min-height: 250px; }
+            
+            .dynamic-island { width: 90vw; justify-content: space-between;}
+            .island-timer { justify-content: flex-end;}
+            .dynamic-island.expanded { flex-direction: column; align-items: center; border-radius: 24px;}
+            .dynamic-island.expanded .island-timer { width: 100%; justify-content: center; margin-top: 1rem;}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <header>
+        <div class="header-brand">
+            <!-- Extraordinary Time Management Gaming SVG Logo -->
+            <svg class="app-logo" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#00f3ff"/>
+                        <stop offset="50%" stop-color="#b026ff"/>
+                        <stop offset="100%" stop-color="#ff00ff"/>
+                    </linearGradient>
+                    <filter id="logoGlow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="15" result="blur"/>
+                        <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                    </filter>
+                </defs>
+                <rect width="512" height="512" rx="110" fill="transparent"/>
+                <circle cx="256" cy="256" r="180" fill="none" stroke="url(#logoGrad)" stroke-width="16" stroke-dasharray="40 20" filter="url(#logoGlow)"/>
+                <circle cx="256" cy="256" r="130" fill="none" stroke="currentColor" stroke-opacity="0.1" stroke-width="8"/>
+                <path d="M256 140v120l90 50" fill="none" stroke="url(#logoGrad)" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" filter="url(#logoGlow)"/>
+                <circle cx="256" cy="256" r="16" fill="#00f3ff" filter="url(#logoGlow)"/>
+            </svg>
+            <div class="header-titles">
+                <h1>Studio // OS</h1>
+                <p>System Architecture & Focus Interface</p>
+            </div>
+        </div>
+        <div class="toolbar">
+            <button class="btn-dashboard" onclick="openDashboard()">📊 Analytics</button>
+            <button id="btn-edit" class="btn-primary" onclick="toggleEdit()">Edit Protocol</button>
+            
+            <div class="settings-wrapper" tabindex="0">
+                <button>⚙️</button>
+                <div class="settings-menu">
+                    <button onclick="downloadWebApp()" id="btn-download">📥 Download App (.html)</button>
+                    <button onclick="toggleTheme()" id="btn-theme">Light Mode</button>
+                    <button onclick="toggleNotifications()" id="btn-notify">Enable Alerts</button>
+                    <button onclick="exportData()">Export Data</button>
+                    <button onclick="document.getElementById('import-file').click()">Import Data</button>
+                    <button onclick="resetData()" style="color: var(--danger)">Factory Reset</button>
+                </div>
+            </div>
+            <input type="file" id="import-file" style="display: none;" onchange="importData(event)" accept=".json">
+        </div>
+    </header>
+
+    <!-- Tabbed Navigation -->
+    <nav class="day-nav" id="day-nav"></nav>
+
+    <!-- Single Focused Container -->
+    <main class="day-view-container" id="day-view"></main>
+
+    <!-- The Dynamic Island -->
+    <div class="dynamic-island" onclick="this.classList.toggle('expanded')">
+        <div class="island-clock" id="clock">00:00</div>
+        <div class="island-timer" onclick="event.stopPropagation()">
+            <div class="timer-nums" id="stopwatch">00:00:00</div>
+            <div class="timer-actions">
+                <button onclick="startTimer()">▶</button>
+                <button onclick="pauseTimer()">⏸</button>
+                <button onclick="resetTimer()">⟲</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Minimal Modal for Adding Block -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+            <h2>New Study Block</h2>
+            <div class="input-group">
+                <label>Category Space</label>
+                <select id="modal-cat">
+                    <option value="routine">General Routine</option>
+                    <option value="ssc">Exam Preparation</option>
+                    <option value="diploma">Diploma Studies</option>
+                    <option value="coding">Web Dev & Programming</option>
+                    <option value="gaming">Gaming & Media</option>
+                </select>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <div class="input-group" style="flex: 1;">
+                    <label>Start Time</label>
+                    <input type="time" id="modal-start" required>
+                </div>
+                <div class="input-group" style="flex: 1;">
+                    <label>End Time</label>
+                    <input type="time" id="modal-end" required>
+                </div>
+            </div>
+            <div class="input-group">
+                <label>Focus Details</label>
+                <input type="text" id="modal-desc" placeholder="Target objective..." required autocomplete="off">
+            </div>
+            <div class="modal-buttons">
+                <button onclick="closeModal()">Abort</button>
+                <button class="btn-primary" onclick="saveTask()">Initialize</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW STUDY ANALYTICS DASHBOARD -->
+    <div class="crm-dashboard" id="dashboard-modal">
+        <div class="crm-container">
+            <!-- Sidebar -->
+            <aside class="crm-sidebar">
+                <div class="crm-brand">
+                    SYS.ANALYTICS <button onclick="closeDashboard()">✕</button>
+                </div>
+                
+                <div class="crm-nav-section">
+                    <div class="crm-nav-title">Timeframe</div>
+                    <div class="crm-nav-item active" id="nav-week" onclick="loadDashboardData('week')">Last 7 Cycles</div>
+                    <div class="crm-nav-item" id="nav-month" onclick="loadDashboardData('month')">Last 30 Cycles</div>
+                </div>
+
+                <div class="crm-nav-section">
+                    <div class="crm-nav-title">Modules</div>
+                    <div class="crm-nav-item">Routine</div>
+                    <div class="crm-nav-item">SSC Prep</div>
+                    <div class="crm-nav-item">Diploma</div>
+                    <div class="crm-nav-item">Coding</div>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="crm-main">
+                <div class="crm-top-row">
+                    <div class="crm-card grad-pink">
+                        <div class="crm-card-title">Uptime (Total Focus)</div>
+                        <div class="crm-card-value" id="dash-total">0 <span>h</span> 0 <span>m</span></div>
+                    </div>
+                    <div class="crm-card grad-cyan">
+                        <div class="crm-card-title">Bandwidth (Avg/Day)</div>
+                        <div class="crm-card-value" id="dash-avg">0 <span>h</span></div>
+                    </div>
+                    <div class="crm-stats-col">
+                        <div class="crm-mini-stat">
+                            <div class="crm-mini-icon" style="background: rgba(57, 255, 20, 0.15); color: #39ff14; border: 1px solid rgba(57,255,20,0.3);">✓</div>
+                            <div class="label">Blocks Executed</div>
+                            <div class="badge" id="dash-tasks-count">0</div>
+                        </div>
+                        <div class="crm-mini-stat">
+                            <div class="crm-mini-icon" style="background: rgba(0, 243, 255, 0.15); color: #00f3ff; border: 1px solid rgba(0,243,255,0.3);">★</div>
+                            <div class="label">Prime Module</div>
+                            <div class="badge" id="dash-top-cat">None</div>
+                        </div>
+                    </div>
+                    <div class="crm-chart-panel" style="padding: 1rem;">
+                        <div class="crm-panel-header" style="margin:0;"><span class="crm-panel-title">System Trend</span></div>
+                        <div class="chart-container"><canvas id="miniTrendChart"></canvas></div>
+                    </div>
+                </div>
+
+                <div class="crm-mid-row">
+                    <div class="crm-chart-panel">
+                        <div class="crm-panel-header">
+                            <span class="crm-panel-title">Output vs Target Matrix</span>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="mainLineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="crm-bot-row">
+                    <div class="crm-chart-panel">
+                        <div class="crm-panel-header"><span class="crm-panel-title">Module Allocation</span></div>
+                        <div class="chart-container"><canvas id="donutChart"></canvas></div>
+                    </div>
+                    <div class="crm-chart-panel">
+                        <div class="crm-panel-header"><span class="crm-panel-title">Deep Work Ratio</span></div>
+                        <div class="chart-container"><canvas id="donutChart2"></canvas></div>
+                    </div>
+                    <div class="crm-chart-panel">
+                        <div class="crm-panel-header"><span class="crm-panel-title">Weekly Load Distribution</span></div>
+                        <div class="chart-container"><canvas id="barChart"></canvas></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // --- SEED DATA ---
+        const initialData = [
+            { day: "Saturday", tasks: [{ start: "08:00", end: "11:00", desc: "Exam Preparation", category: "ssc" }, { start: "11:30", end: "13:30", desc: "Web Dev: HTML/CSS/JS", category: "coding" }, { start: "16:00", end: "18:00", desc: "Gaming: eFootball", category: "gaming" }, { start: "18:30", end: "21:30", desc: "Diploma: Digital Electronics 2", category: "diploma" }] },
+            { day: "Sunday", tasks: [{ start: "08:00", end: "14:00", desc: "Diploma", category: "diploma" }, { start: "16:30", end: "19:00", desc: "Exam Preparation", category: "ssc" }, { start: "19:30", end: "22:00", desc: "Java / Python Object Practice", category: "coding" }] },
+            { day: "Monday", tasks: [{ start: "08:00", end: "14:00", desc: "Diploma", category: "diploma" }, { start: "16:30", end: "19:00", desc: "Exam Preparation", category: "ssc" }, { start: "19:30", end: "21:30", desc: "Business Communication", category: "diploma" }] },
+            { day: "Tuesday", tasks: [{ start: "08:00", end: "14:00", desc: "Diploma", category: "diploma" }, { start: "17:00", end: "19:00", desc: "Web Dev: CSS Layouts", category: "coding" }, { start: "19:30", end: "22:00", desc: "SSC Prep: General Math", category: "ssc" }] },
+            { day: "Wednesday", tasks: [{ start: "08:00", end: "14:00", desc: "Diploma", category: "diploma" }, { start: "16:30", end: "19:30", desc: "Exam Preparation", category: "ssc" }] },
+            { day: "Thursday", tasks: [{ start: "08:00", end: "14:00", desc: "Diploma", category: "diploma" }, { start: "16:00", end: "18:00", desc: "VFX / Photography Practice", category: "routine" }, { start: "19:00", end: "22:00", desc: "Exam Prep", category: "ssc" }] },
+            { day: "Friday", tasks: [{ start: "10:00", end: "13:00", desc: "Deep Coding Session", category: "coding" }, { start: "15:30", end: "18:00", desc: "Gaming & Leisure", category: "gaming" }] }
+        ];
+
+        // --- STATE & INIT ---
+        let routine = JSON.parse(localStorage.getItem('zen_data')) || initialData;
+        let taskHistory = JSON.parse(localStorage.getItem('zen_history')) || [];
+        let theme = localStorage.getItem('zen_theme') || 'dark';
+        let alertsOn = false;
+        
+        const todayRealName = new Date().toLocaleDateString('en-US', { weekday: 'long' });
+        let activeViewDay = todayRealName; 
+
+        let charts = { main: null, donut1: null, donut2: null, bar: null, mini: null };
+
+        function init() {
+            setTheme(theme);
+            renderNav();
+            renderView();
+            startEngines();
+        }
+
+        function showToast(message, type = 'error') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `${type === 'success' ? '✓' : '⚠️'} ${message}`;
+            container.appendChild(toast);
+            void toast.offsetWidth;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
+
+        // --- WEB APP DOWNLOAD ENGINE ---
+        function downloadWebApp() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Studio-OS-TimeManagement.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('Studio OS application downloaded successfully!', 'success');
+        }
+
+        // --- CORE RENDERING ---
+        function renderNav() {
+            const nav = document.getElementById('day-nav');
+            nav.innerHTML = '';
+            routine.forEach(dayObj => {
+                const btn = document.createElement('button');
+                btn.textContent = dayObj.day;
+                if (dayObj.day === activeViewDay) btn.classList.add('active-tab');
+                btn.onclick = () => { activeViewDay = dayObj.day; renderNav(); renderView(); };
+                nav.appendChild(btn);
+            });
+        }
+
+        function renderView() {
+            const container = document.getElementById('day-view');
+            container.classList.remove('day-view-container');
+            void container.offsetWidth; 
+            container.classList.add('day-view-container');
+
+            const dayDataIndex = routine.findIndex(d => d.day === activeViewDay);
+            const dayData = routine[dayDataIndex];
+            const isToday = activeViewDay === todayRealName;
+            const dateStr = new Date().toDateString();
+            
+            dayData.tasks.sort((a, b) => a.start.localeCompare(b.start));
+
+            let tasksHTML = dayData.tasks.length === 0 ? '<div class="empty-msg">No blocks scheduled.</div>' : '';
+            
+            dayData.tasks.forEach((t, tIdx) => {
+                const logId = `${dateStr}-${t.start}-${t.end}`;
+                const isCompleted = taskHistory.some(log => log.id === logId);
+                const animDelay = tIdx * 0.1;
+
+                tasksHTML += `
+                    <div class="task" data-start="${t.start}" data-end="${t.end}" style="--cat-color: var(--cat-${t.category || 'routine'}); animation-delay: ${animDelay}s">
+                        <div class="task-progress-bar"></div>
+                        <div class="task-time-col">
+                            <span class="task-time">${formatTime(t.start)}</span>
+                            <span class="task-duration">to ${formatTime(t.end)}</span>
+                        </div>
+                        <div class="task-info-col">
+                            <div class="task-category">${getCatName(t.category)}</div>
+                            <div class="task-desc">${t.desc}</div>
+                        </div>
+                        <div class="task-actions">
+                            ${isToday ? `<button class="btn-complete ${isCompleted ? 'done' : ''}" onclick="markTaskDone(${dayDataIndex}, ${tIdx}, this)">${isCompleted ? '✓ Done' : 'Initialize'}</button>` : ''}
+                            <button class="delete-btn" onclick="deleteTask(${dayDataIndex}, ${tIdx})" title="Delete Block">✕</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = `
+                <div class="day-header">
+                    <span class="day-title">${dayData.day}</span>
+                    ${isToday ? '<span class="today-badge">Active Cycle</span>' : ''}
+                </div>
+                <div class="task-list">${tasksHTML}</div>
+                <button class="add-task-btn" onclick="openModal()">+ Add New Protocol</button>
+            `;
+            checkActiveTask();
+        }
+
+        function getCatName(cat) {
+            const map = { 'ssc': 'Exam Prep', 'diploma': 'Diploma', 'coding': 'Dev Matrix', 'gaming': 'Leisure', 'routine': 'Routine' };
+            return map[cat] || 'Routine';
+        }
+
+        const catColors = {
+            'routine': '#a1a1aa', 'ssc': '#ff00ff', 'diploma': '#b026ff', 'coding': '#00f3ff', 'gaming': '#ffae00'
+        };
+
+        function markTaskDone(dIdx, tIdx, btnElement) {
+            const task = routine[dIdx].tasks[tIdx];
+            const dateStr = new Date().toDateString();
+            const logId = `${dateStr}-${task.start}-${task.end}`;
+            
+            if (!taskHistory.some(t => t.id === logId)) {
+                const durationHrs = (getMins(task.end) - getMins(task.start)) / 60;
+                taskHistory.push({ id: logId, timestamp: new Date().getTime(), category: task.category, hours: durationHrs });
+                localStorage.setItem('zen_history', JSON.stringify(taskHistory));
+                btnElement.classList.add('done');
+                btnElement.textContent = '✓ Done';
+                showToast(`Logged ${durationHrs.toFixed(1)}h`, 'success');
+            }
+        }
+
+        // =========================================================================
+        // DASHBOARD ANALYTICS
+        // =========================================================================
+        function openDashboard() {
+            document.getElementById('dashboard-modal').classList.add('active');
+            const isLight = theme === 'light';
+            
+            Chart.defaults.color = isLight ? '#64748b' : '#94a3b8';
+            Chart.defaults.font.family = "'Inter', sans-serif";
+            Chart.defaults.plugins.tooltip.backgroundColor = isLight ? 'rgba(255, 255, 255, 0.95)' : 'rgba(10, 10, 15, 0.9)';
+            Chart.defaults.plugins.tooltip.titleColor = isLight ? '#0f172a' : '#fff';
+            Chart.defaults.plugins.tooltip.bodyColor = isLight ? '#0f172a' : '#fff';
+            Chart.defaults.plugins.tooltip.borderColor = isLight ? 'rgba(14, 165, 233, 0.3)' : 'rgba(0, 243, 255, 0.3)';
+            Chart.defaults.plugins.tooltip.borderWidth = 1;
+            Chart.defaults.plugins.tooltip.padding = 12;
+            Chart.defaults.plugins.tooltip.cornerRadius = 8;
+            Chart.defaults.plugins.legend.labels.usePointStyle = true;
+            
+            loadDashboardData('week');
+        }
+
+        function closeDashboard() { document.getElementById('dashboard-modal').classList.remove('active'); }
+
+        function loadDashboardData(period) {
+            document.getElementById('nav-week').classList.toggle('active', period === 'week');
+            document.getElementById('nav-month').classList.toggle('active', period === 'month');
+
+            const daysToLookBack = period === 'week' ? 7 : 30;
+            const now = new Date().getTime();
+            const timeLimit = daysToLookBack * 24 * 3600000;
+            
+            const filteredLogs = taskHistory.filter(log => (now - log.timestamp) <= timeLimit);
+            
+            let totalHours = 0;
+            let categoryTotals = {};
+            let dailyTotals = new Array(daysToLookBack).fill(0);
+            let dayLabels = [];
+            let weekdayTotals = { 'Mon':0, 'Tue':0, 'Wed':0, 'Thu':0, 'Fri':0, 'Sat':0, 'Sun':0 };
+            
+            for(let i = daysToLookBack - 1; i >= 0; i--) {
+                const d = new Date(now - (i * 24 * 3600000));
+                dayLabels.push(`${d.getMonth()+1}/${d.getDate()}`);
+            }
+
+            filteredLogs.forEach(log => {
+                totalHours += log.hours;
+                categoryTotals[log.category] = (categoryTotals[log.category] || 0) + log.hours;
+                
+                const logDayDiff = Math.floor((now - log.timestamp) / (24 * 3600000));
+                if (logDayDiff < daysToLookBack) {
+                    const index = (daysToLookBack - 1) - logDayDiff;
+                    dailyTotals[index] += log.hours;
+                }
+                
+                const logDate = new Date(log.timestamp);
+                const dayName = logDate.toLocaleDateString('en-US', { weekday: 'short' });
+                if(weekdayTotals[dayName] !== undefined) weekdayTotals[dayName] += log.hours;
+            });
+
+            const hrs = Math.floor(totalHours);
+            const mins = Math.round((totalHours - hrs) * 60);
+            document.getElementById('dash-total').innerHTML = `${hrs} <span>h</span> ${mins} <span>m</span>`;
+            document.getElementById('dash-avg').innerHTML = `${(totalHours/daysToLookBack).toFixed(1)} <span>h/day</span>`;
+            document.getElementById('dash-tasks-count').textContent = filteredLogs.length;
+
+            let topCat = 'None'; let maxHrs = 0;
+            for(const [c, h] of Object.entries(categoryTotals)) { if(h > maxHrs) { maxHrs = h; topCat = getCatName(c); } }
+            document.getElementById('dash-top-cat').textContent = topCat;
+
+            renderMainLineChart(dayLabels, dailyTotals);
+            renderDonutCharts(categoryTotals);
+            renderBarChart(weekdayTotals);
+            renderMiniTrendChart(dailyTotals);
+        }
+
+        function destroyChart(chartKey) {
+            if (charts[chartKey]) charts[chartKey].destroy();
+        }
+
+        function renderMainLineChart(labels, data) {
+            destroyChart('main');
+            const ctx = document.getElementById('mainLineChart').getContext('2d');
+            
+            const isLight = theme === 'light';
+            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, isLight ? 'rgba(14, 165, 233, 0.4)' : 'rgba(0, 243, 255, 0.5)'); 
+            gradient.addColorStop(1, isLight ? 'rgba(14, 165, 233, 0)' : 'rgba(0, 243, 255, 0)');
+            
+            charts.main = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Hours Online',
+                        data: data,
+                        borderColor: isLight ? '#0ea5e9' : '#00f3ff',
+                        backgroundColor: gradient,
+                        borderWidth: 3,
+                        pointBackgroundColor: isLight ? '#fff' : '#0f0c29',
+                        pointBorderColor: isLight ? '#0ea5e9' : '#00f3ff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: isLight ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)', drawBorder: false } },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function renderDonutCharts(catTotals) {
+            destroyChart('donut1'); destroyChart('donut2');
+            
+            const labels = Object.keys(catTotals).map(getCatName);
+            const data = Object.values(catTotals);
+            const colors = Object.keys(catTotals).map(c => catColors[c]);
+
+            if(data.length === 0) { data.push(1); labels.push('No Data'); colors.push(theme === 'light' ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.1)'); }
+
+            charts.donut1 = new Chart(document.getElementById('donutChart').getContext('2d'), {
+                type: 'doughnut',
+                data: { labels: labels, datasets: [{ data: data, backgroundColor: colors, borderWidth: 0, hoverOffset: 4 }] },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right' } } }
+            });
+
+            let deepWork = (catTotals['coding']||0) + (catTotals['diploma']||0) + (catTotals['ssc']||0);
+            let casual = (catTotals['gaming']||0) + (catTotals['routine']||0);
+            if(deepWork === 0 && casual === 0) { deepWork = 1; casual = 0; }
+
+            charts.donut2 = new Chart(document.getElementById('donutChart2').getContext('2d'), {
+                type: 'doughnut',
+                data: { 
+                    labels: ['Deep Work', 'Casual/Routine'], 
+                    datasets: [{ data: [deepWork, casual], backgroundColor: ['#b026ff', '#ffae00'], borderWidth: 0, hoverOffset: 4 }] 
+                },
+                options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right' } } }
+            });
+        }
+
+        function renderBarChart(weekData) {
+            destroyChart('bar');
+            const ctx = document.getElementById('barChart').getContext('2d');
+            
+            const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+            gradient.addColorStop(0, '#ff00ff');
+            gradient.addColorStop(1, '#3b82f6');
+
+            charts.bar = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(weekData),
+                    datasets: [{
+                        label: 'Load',
+                        data: Object.values(weekData),
+                        backgroundColor: gradient,
+                        borderRadius: 6,
+                        barThickness: 14
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: {
+                        y: { display: false, beginAtZero: true },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        function renderMiniTrendChart(data) {
+            destroyChart('mini');
+            const ctx = document.getElementById('miniTrendChart').getContext('2d');
+            charts.mini = new Chart(ctx, {
+                type: 'line',
+                data: { labels: data.map((_,i)=>i), datasets: [{ data: data, borderColor: theme === 'light' ? '#059669' : '#39ff14', borderWidth: 2, tension: 0.4, pointRadius: 0 }] },
+                options: { responsive: true, maintainAspectRatio: false, scales: { x:{display:false}, y:{display:false} }, plugins: { legend: {display:false}, tooltip: {enabled:false} } }
+            });
+        }
+
+        function toggleEdit() {
+            document.body.classList.toggle('edit-mode');
+            const editing = document.body.classList.contains('edit-mode');
+            document.getElementById('btn-edit').textContent = editing ? 'Lock Protocol' : 'Edit Protocol';
+            document.getElementById('btn-edit').className = editing ? '' : 'btn-primary';
+            if (editing) showToast('Edit mode engaged.', 'success');
+        }
+
+        function openModal() { document.getElementById('modal-overlay').classList.add('active'); }
+        function closeModal() { document.getElementById('modal-overlay').classList.remove('active'); ['start', 'end', 'desc'].forEach(id => document.getElementById(`modal-${id}`).value = ''); }
+
+        function saveTask() {
+            const start = document.getElementById('modal-start').value;
+            const end = document.getElementById('modal-end').value;
+            const desc = document.getElementById('modal-desc').value;
+            const cat = document.getElementById('modal-cat').value;
+            if (!start || !end || !desc) return showToast('Please complete all parameters.');
+            if (start >= end) return showToast('Timeline conflict: End time must follow start time.');
+            const dayObj = routine.find(d => d.day === activeViewDay);
+            if (dayObj.tasks.some(t => start < t.end && end > t.start)) return showToast('Critical time conflict detected!');
+            dayObj.tasks.push({ start, end, desc, category: cat });
+            save(); renderView(); closeModal(); showToast('Protocol successfully injected.', 'success');
+        }
+
+        function deleteTask(dIdx, tIdx) { routine[dIdx].tasks.splice(tIdx, 1); save(); renderView(); showToast('Protocol eradicated.', 'success'); }
+        function save() { localStorage.setItem('zen_data', JSON.stringify(routine)); }
+
+        function getMins(timeStr) { const [h, m] = timeStr.split(':').map(Number); return h * 60 + m; }
+        function formatTime(timeStr) { let [h, m] = timeStr.split(':'); const p = h >= 12 ? 'PM' : 'AM'; return `${h % 12 || 12}:${m} ${p}`; }
+        
+        function setTheme(newTheme) { 
+            theme = newTheme; 
+            document.documentElement.setAttribute('data-theme', theme); 
+            localStorage.setItem('zen_theme', theme); 
+            document.getElementById('btn-theme').textContent = theme === 'dark' ? 'Light Mode' : 'Dark Mode'; 
+            const metaColor = theme === 'dark' ? '#0b0914' : '#ffffff'; 
+            document.getElementById('meta-theme-color').setAttribute('content', metaColor); 
+            if(document.getElementById('dashboard-modal').classList.contains('active')) {
+                openDashboard();
+            }
+        }
+        function toggleTheme() { setTheme(theme === 'dark' ? 'light' : 'dark'); }
+        
+        function checkActiveTask() {
+            if (activeViewDay !== todayRealName) return; 
+            const now = new Date();
+            const currentMins = now.getHours() * 60 + now.getMinutes() + (now.getSeconds() / 60);
+            document.querySelectorAll('.task').forEach(task => {
+                const s = getMins(task.dataset.start); const e = getMins(task.dataset.end);
+                const bar = task.querySelector('.task-progress-bar');
+                if (currentMins >= s && currentMins < e) {
+                    task.classList.add('active-task');
+                    bar.style.width = `${Math.max(0, Math.min(100, ((currentMins - s) / (e - s)) * 100))}%`;
+                } else {
+                    task.classList.remove('active-task');
+                    bar.style.width = currentMins >= e ? '100%' : '0%';
+                }
+            });
+        }
+
+        let swTime = 0, swDelta = 0, swInterval, swRunning = false;
+        function startEngines() {
+            setInterval(() => { document.getElementById('clock').textContent = new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }); }, 1000);
+            setInterval(checkActiveTask, 1000);
+        }
+        function startTimer() { if (!swRunning) { swRunning = true; swTime = Date.now() - swDelta; swInterval = setInterval(() => { swDelta = Date.now() - swTime; const s = Math.floor(swDelta / 1000); document.getElementById('stopwatch').textContent = `${String(Math.floor(s / 3600)).padStart(2, '0')}:${String(Math.floor((s % 3600) / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`; }, 250); } }
+        function pauseTimer() { swRunning = false; clearInterval(swInterval); }
+        function resetTimer() { pauseTimer(); swDelta = 0; document.getElementById('stopwatch').textContent = "00:00:00"; }
+
+        document.getElementById('modal-overlay').addEventListener('click', function(e) { if(e.target === this) closeModal(); });
+
+        window.onload = init;
+    </script>
+</body>
+</html>
